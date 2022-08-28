@@ -28,9 +28,11 @@ class TaskTile extends StatelessWidget {
       ),
       trailing: Checkbox(
           value: task.isDone,
-          onChanged: (value) {
-            context.read<TaskBloc>().add(UpdateTask(task: task));
-          }),
+          onChanged: task.isDeleted == false
+              ? (value) {
+                  context.read<TaskBloc>().add(UpdateTask(task: task));
+                }
+              : null),
       onLongPress: () {
         _removeOrDeleteTask(context, task);
       },
