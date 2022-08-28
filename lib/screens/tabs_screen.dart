@@ -51,7 +51,21 @@ class _TabsScreenState extends State<TabsScreen> {
         ],
       ),
       drawer: const MyDrawer(),
-      body: _pageDetails[_selectedPageIndex]['pageName'],
+      body: PageView(
+        controller: PageController(
+          initialPage: _selectedPageIndex,
+        ),
+        onPageChanged: (newValue) {
+          setState(() {
+            _selectedPageIndex = newValue;
+          });
+        },
+        children: <Widget>[
+          _pageDetails[0]['pageName'],
+          _pageDetails[1]['pageName'],
+          _pageDetails[2]['pageName'],
+        ],
+      ),
       floatingActionButton: _selectedPageIndex == 0
           ? FloatingActionButton(
               onPressed: () => _addTask(context),
