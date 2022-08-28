@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tasks_app/blocs/bloc/task_bloc.dart';
 import 'package:flutter_tasks_app/blocs/bloc_exports.dart';
 import 'package:flutter_tasks_app/screens/recycle_bin_folder.dart';
 import 'package:flutter_tasks_app/screens/tasks_screen.dart';
@@ -25,7 +24,8 @@ class MyDrawer extends StatelessWidget {
             BlocBuilder<TaskBloc, TaskState>(
               builder: (context, state) {
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed(TasksScreen.id),
+                  onTap: () => Navigator.of(context)
+                      .pushReplacementNamed(TasksScreen.id),
                   child: ListTile(
                     leading: const Icon(Icons.folder_special),
                     title: const Text('My Tasks'),
@@ -38,12 +38,25 @@ class MyDrawer extends StatelessWidget {
             BlocBuilder<TaskBloc, TaskState>(
               builder: (context, state) {
                 return GestureDetector(
-                  onTap: () => Navigator.of(context).pushNamed(RecycleBin.id),
+                  onTap: () =>
+                      Navigator.of(context).pushReplacementNamed(RecycleBin.id),
                   child: ListTile(
                     leading: const Icon(Icons.delete),
                     title: const Text('Bin'),
                     trailing: Text('${state.removedTasks.length}'),
                   ),
+                );
+              },
+            ),
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return Switch(
+                  value: state.switchValue,
+                  onChanged: (newVal) {
+                    newVal
+                        ? context.read<SwitchBloc>().add(SwitchOnEvent())
+                        : context.read<SwitchBloc>().add(SwitchOffEvent());
+                  },
                 );
               },
             )
