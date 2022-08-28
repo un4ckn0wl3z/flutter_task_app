@@ -14,6 +14,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
+
     return Container(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -31,6 +33,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             decoration: const InputDecoration(
                 label: Text('Title'), border: OutlineInputBorder()),
           ),
+          const SizedBox(
+            height: 6,
+          ),
+          TextField(
+            autofocus: true,
+            controller: descriptionController,
+            minLines: 3,
+            maxLines: 5,
+            decoration: const InputDecoration(
+                label: Text('Description'), border: OutlineInputBorder()),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -42,6 +55,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 onPressed: () {
                   var task = Task(
                     title: titleController.text,
+                    description: descriptionController.text,
                     id: GUIDGen.generate(),
                   );
                   context.read<TaskBloc>().add(AddTask(task: task));
